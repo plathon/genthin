@@ -1,9 +1,8 @@
-// import { Button, Header } from "ui";
 import Image from "next/image";
 import { Heart, MessageCircle, Send } from "ui/icons";
 import moment from "moment";
 
-export default function Page() {
+export default function PostPage() {
   return (
     <>
       <div className="flex justify-between items-center border-b p-5">
@@ -11,7 +10,7 @@ export default function Page() {
         <button></button>
       </div>
 
-      <div className="flex pt-5 pl-5 pr-5">
+      <div className="flex pt-5 pl-5 pr-5 justify-center items-center">
         <div className="basis-1/4 flex justify-center items-center flex-col">
           <div className="rounded-full w-28 h-28 overflow-hidden">
             <Image
@@ -25,23 +24,6 @@ export default function Page() {
             <h2 className="text-xl">John Smith</h2>
             <h5 className="text-sm text-[#334155]">@johnsmith</h5>
           </div>
-        </div>
-        <div className="ml-5 basis-3/4">
-          <form>
-            <div>
-              <textarea
-                className="border w-full p-1 resize-none"
-                rows={4}
-              ></textarea>
-            </div>
-            <button
-              type="submit"
-              className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6]"
-            >
-              <Send className="inline mr-2" />
-              Post
-            </button>
-          </form>
         </div>
       </div>
 
@@ -57,6 +39,30 @@ export default function Page() {
           <button className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6] ml-2">
             <MessageCircle /> <span>10</span>
           </button>
+        </div>
+
+        <div>
+          <div className="p-2 flex justify-between">
+            <div className="basis-5/6">
+              <span>John Smith</span> @johnsmith
+              <p className="text-sm">Phasellus nec iaculis mauris.</p>
+            </div>
+          </div>
+
+          <div className="p-2 flex items-center">
+            <div className="basis-[90%]">
+              <textarea
+                className="border w-full p-1 resize-none"
+                rows={2}
+              ></textarea>
+            </div>
+            <div className="basis-[10%]">
+              <button className="p-2 mb-2 rounded hover:bg-[#f3f4f6]">
+                <Send className="inline mr-2" />
+                Comment
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>
