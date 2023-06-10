@@ -1,5 +1,6 @@
 // import { Button, Header } from "ui";
 import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
 import { Heart, MessageCircle, Send } from "ui/icons";
 import moment from "moment";
 
@@ -8,7 +9,7 @@ export default function Page() {
     <>
       <div className="flex justify-between items-center border-b p-5">
         <p>Genthin</p>
-        <button></button>
+        <UserButton />
       </div>
 
       <div className="flex pt-5 pl-5 pr-5">
