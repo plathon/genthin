@@ -1,10 +1,13 @@
-// import { Button, Header } from "ui";
+"use client";
 import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import { Heart, MessageCircle, Send } from "ui/icons";
-import moment from "moment";
+
+import { useMyFeed } from "@/hooks/useMyFeed";
 
 export default function Page() {
+  const { data } = useMyFeed();
+
   return (
     <>
       <div className="flex justify-between items-center border-b p-5">
@@ -50,7 +53,7 @@ export default function Page() {
         <h2 className="text-xl">John</h2>
         <h5 className="text-sm text-[#334155]">@john</h5>
         <p className="mt-2 mb-2">the content.</p>
-        <p className="text-sm">{moment().format("MMMM D YYYY, h:mm:ss")}</p>
+        <p className="text-sm">{"MMMM D YYYY, h:mm:ss"}</p>
         <div className="mt-2">
           <button className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6]">
             <Heart /> <span>10</span>

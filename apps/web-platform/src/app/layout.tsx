@@ -1,6 +1,8 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
+import { ReactQueryProvider } from "@/components/reactQueryProvider";
+
 export default function RootLayout({
   children,
 }: {
@@ -8,9 +10,11 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
+      <ReactQueryProvider>
+        <html lang="en">
+          <body>{children}</body>
+        </html>
+      </ReactQueryProvider>
     </ClerkProvider>
   );
 }

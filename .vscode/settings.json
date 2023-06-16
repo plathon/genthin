@@ -7,5 +7,6 @@
   "editor.guides.indentation": true,
   "files.exclude": {
     "**/node_modules/": true
-  }
+  },
+  "cSpell.words": ["tanstack"]
 }
