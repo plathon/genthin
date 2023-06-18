@@ -4,10 +4,13 @@ import { UserButton } from "@clerk/nextjs";
 import { Heart, MessageCircle, Send } from "ui/icons";
 
 import { useMyFeed } from "@/hooks/use-my-feed";
+import { usePostMutation } from "@/hooks/use-post-mutation";
 import { PostType } from "schemas";
 
 export default function Page() {
   const { data } = useMyFeed<PostType[]>();
+  const postMutation = usePostMutation();
+
   return (
     <>
       <div className="flex justify-between items-center border-b p-5">
@@ -39,8 +42,11 @@ export default function Page() {
               ></textarea>
             </div>
             <button
-              type="submit"
+              type="button"
               className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6]"
+              onClick={() => {
+                console.log(postMutation.mutate({ content: "test" }));
+              }}
             >
               <Send className="inline mr-2" />
               Post
