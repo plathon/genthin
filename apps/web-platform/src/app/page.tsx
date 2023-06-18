@@ -3,11 +3,11 @@ import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import { Heart, MessageCircle, Send } from "ui/icons";
 
-import { useMyFeed } from "@/hooks/useMyFeed";
+import { useMyFeed } from "@/hooks/use-my-feed";
+import { PostType } from "schemas";
 
 export default function Page() {
-  const { data } = useMyFeed();
-
+  const { data } = useMyFeed<PostType[]>();
   return (
     <>
       <div className="flex justify-between items-center border-b p-5">
