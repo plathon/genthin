@@ -6,7 +6,7 @@ const PostSchema = z.object({
   id: z.string(),
   authorName: z.string(),
   authorSlug: z.string(),
-  content: z.string(),
+  content: z.string().min(1).max(250),
   created_at: z.string(),
   updated_at: z.string(),
   authorId: z.string(),

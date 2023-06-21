@@ -1,15 +1,31 @@
 "use client";
 import Image from "next/image";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { UserButton } from "@clerk/nextjs";
 import { Heart, MessageCircle, Send } from "ui/icons";
 
 import { useMyFeed } from "@/hooks/use-my-feed";
 import { usePostMutation } from "@/hooks/use-post-mutation";
-import { PostType } from "schemas";
+import { PostType, PostInputSchema, PostInputType } from "schemas";
 
 export default function Page() {
-  const { data } = useMyFeed<PostType[]>();
-  const postMutation = usePostMutation();
+  const { data: postsData } = useMyFeed<PostType[]>();
+  const { mutate: mutatePost } = usePostMutation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<PostInputType>({
+    resolver: zodResolver(PostInputSchema),
+  });
+
+  const submitPost: SubmitHandler<PostInputType> = (data) => {
+    mutatePost(data);
+    reset();
+  };
 
   return (
     <>
@@ -34,19 +50,22 @@ export default function Page() {
           </div>
         </div>
         <div className="ml-5 basis-3/4">
-          <form>
+          <form onSubmit={handleSubmit(submitPost)}>
             <div>
               <textarea
+                {...register("content")}
                 className="border w-full p-1 resize-none"
                 rows={4}
               ></textarea>
+              {errors.content && (
+                <span className="text-xs text-red-500">
+                  {errors.content.message}
+                </span>
+              )}
             </div>
             <button
-              type="button"
+              type="submit"
               className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6]"
-              onClick={() => {
-                console.log(postMutation.mutate({ content: "test" }));
-              }}
             >
               <Send className="inline mr-2" />
               Post
@@ -54,21 +73,23 @@ export default function Page() {
           </form>
         </div>
       </div>
-
-      <div className="border rounded-lg p-5 mx-8 my-4">
-        <h2 className="text-xl">John</h2>
-        <h5 className="text-sm text-[#334155]">@john</h5>
-        <p className="mt-2 mb-2">the content.</p>
-        <p className="text-sm">{"MMMM D YYYY, h:mm:ss"}</p>
-        <div className="mt-2">
-          <button className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6]">
-            <Heart /> <span>10</span>
-          </button>
-          <button className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6] ml-2">
-            <MessageCircle /> <span>10</span>
-          </button>
-        </div>
-      </div>
+      {postsData &&
+        postsData.map((post) => (
+          <div key={post.id} className="border rounded-lg p-5 mx-8 my-4">
+            <h2 className="text-xl">{post.authorName}</h2>
+            <h5 className="text-sm text-[#334155]">@{post.authorSlug}</h5>
+            <p className="mt-2 mb-2">{post.content}</p>
+            <p className="text-sm">{post.created_at}</p>
+            <div className="mt-2">
+              <button className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6]">
+                <Heart /> <span>{post._count.likes}</span>
+              </button>
+              <button className="p-2 rounded border border-[#e5e7eb] hover:bg-[#f3f4f6] ml-2">
+                <MessageCircle /> <span>{post._count.comments}</span>
+              </button>
+            </div>
+          </div>
+        ))}
     </>
   );
 }

@@ -6,8 +6,20 @@ import { ErrorMessage, StatusCode } from "@/helpers/http";
 export async function GET(request: Request) {
   const { userId } = auth();
   try {
-    const postData = prisma.post.findMany({ where: { userId } });
-    return NextResponse.json(postData);
+    const user = await prisma.user.findFirst({ where: { userId } });
+    const postsData = await prisma.post.findMany({
+      where: { userId: user.id },
+      orderBy: {
+        created_at: "desc",
+      },
+      include: {
+        comments: true,
+        _count: {
+          select: { likes: true, comments: true },
+        },
+      },
+    });
+    return NextResponse.json(postsData);
   } catch (error) {
     return NextResponse.json(
       { message: ErrorMessage.couldNotProcessRequest },
