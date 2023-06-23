@@ -1,7 +1,7 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-import { ReactQueryProvider } from "@/components/reactQueryProvider";
+import { ReactQueryProvider } from "@/components/providers/reactQueryProvider";
 
 export default function RootLayout({
   children,
